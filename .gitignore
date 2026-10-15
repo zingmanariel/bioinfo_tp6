@@ -3,3 +3,5 @@ __pycache__/
 .DS_Store
 venv/
 _to_delete/
+Homo_sapiens_assembly38.chr1.fasta.gz
+*.zip
