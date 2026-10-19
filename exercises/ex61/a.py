@@ -1,9 +1,9 @@
-"""6.1a) Metricas a partir del archivo SAM.
-
-    i)   Profundidad para cada posicion del genoma de referencia (con grafico)
-    ii)  Profundidad promedio y desvio estandar
-    iii) Promedio y SD del largo de las lecturas mapeadas
-    iv)  Cobertura (en %) del genoma target para un dado umbral de profundidad
+"""Ejercicio 61a) Obtenga a partir del archivo SAM las siguientes métricas
+i) Profundidad para cada una de las posiciones del genoma de referencia (realice el gŕafico
+correspondiente)
+ii) Profundidad promedio y desvío estándar
+iii) Promedio y SD del largo de las lecturas mapeadas
+iv) Cobertura (en %) del genoma target para un dado umbral de profundidad.
 
 The "target" is the window spanned by the reads (first to last covered
 position); positions inside it that no read covers count as depth 0.
@@ -15,7 +15,7 @@ from depth import THRESHOLDS, coverage, mean_sd
 from paths import FASTA, FIGURES, SAM
 from pileup import Pileup
 from plots import plot_depth
-from sam import read_sam
+from pileup import read_sam
 
 
 def i():

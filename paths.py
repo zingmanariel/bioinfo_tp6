@@ -8,3 +8,4 @@ FIGURES = os.path.join(ROOT, 'figures')
 
 SAM = os.path.join(DATA, 'modulo6.sam')
 FASTA = os.path.join(DATA, 'Homo_sapiens_assembly38.chr1.fasta.gz')
+VCF_OUT = os.path.join(DATA, 'modulo6_mycalls.vcf')
