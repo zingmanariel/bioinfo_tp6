@@ -60,7 +60,7 @@ Sobre las 1715 posiciones de la ventana (las que no cubre ninguna lectura cuenta
 | SD | 54,72 | **45,56** |
 | Máximo | 197 | 166 |
 
-El SD es alto respecto de la media porque la profundidad no es pareja: los dos picos y el valle del medio hacen que la distribución sea muy dispersa. La media sola esconde eso.
+El SD es alto respecto de la media porque la profundidad no es pareja: los dos picos y el valle del medio hacen que la distribución sea muy dispersa.
 
 ### iii) Largo de las lecturas
 
@@ -117,7 +117,7 @@ Comparamos el popup de la pista de cobertura con nuestro `Pileup` (con el filtro
 
 ![Popup de cobertura en 209.625.908](figures/igv/03_depth_at_209_625_908.png)
 
-El conteo base por base coincide en las tres posiciones. La segunda es una de las variantes del VCF de GATK: la referencia dice `A` y las 108 lecturas dicen `G`, una variante homocigota A>G (en el IGV se ve como una barra naranja en la cobertura). La tercera es un ejemplo de error de secuenciación: una sola `A` entre 190 lecturas (1%). Una diferencia así no debería llamarse variante.
+El conteo base por base coincide en las tres posiciones. La segunda es una de las variantes del VCF de GATK: la referencia dice `A` y las 108 lecturas dicen `G`, una variante homocigota A>G (en el IGV se ve como una barra naranja en la cobertura). La tercera es un ejemplo de error de secuenciación: una sola `A` entre 190 lecturas (1%). Una diferencia así no se considera variante.
 
 ### Media, SD y cobertura
 
@@ -214,13 +214,11 @@ El `modulo6.vcf` de la cátedra tiene exactamente dos variantes, y son las misma
 | GATK | 209625908 | A>G | 1/1 | 85 | 85 |
 | **Nuestro** | 209625908 | A>G | 1/1 | 89 | 89 |
 
-Coinciden las posiciones, los alelos y el genotipo. Las profundidades difieren en 1 a 4 lecturas sobre 70 a 160, y tratamos de entender por qué:
+Coinciden las posiciones, los alelos y el genotipo. La profundidad difiere en 2 lecturas en la primera y en 4 en la segunda, y las lecturas alternativas en 1 y 4.
 
-- **Duplicados (comprobado).** Es la diferencia grande. Si no los excluimos, las mismas posiciones dan profundidad 190 y 108, con 85 y 108 lecturas alternativas. Con duplicados además son 105 candidatas, en lugar de 93, y las dos finales siguen siendo las mismas.
-- **Calidad de base (comprobado, solo en una posición).** En `209625721` GATK da 89 lecturas de referencia y nosotros 90. Hay una base `G` con calidad 3 y GATK descarta las bases con calidad menor a 10 por defecto; sin esa base coincide exacto.
-- **Lo que queda: 1 lectura de diferencia en `209625721` (68 contra 69) y 4 en `209625908` (85 contra 89).** Probamos y descartamos las causas más obvias: la calidad de mapeo (todas las lecturas tienen 60), que las parejas estén bien orientadas (todas lo están), la calidad de base en `209625908`, que las dos lecturas de una pareja se superpongan en la posición, y que la variante caiga cerca de un extremo de la lectura. Nuestra hipótesis, que no pudimos comprobar desde el SAM, es que HaplotypeCaller rearma localmente las secuencias de la región y en el campo `AD` cuenta solo las lecturas claramente informativas, descartando las ambiguas. Es consistente con que en el mismo VCF el `DP` de la línea `INFO` (164 y 91) sea mayor que el de la muestra (157 y 85): GATK mismo descarta entre 6 y 7 lecturas en el paso final.
+En `209625721` hay una base `G` de calidad 3 que nosotros contamos y GATK descarta, porque su calidad mínima es 10. Eso explica 1 de las 2 lecturas de diferencia en la profundidad (159 contra 157).
 
-En ninguno de los dos casos cambia lo que importa: las mismas dos variantes, con el mismo genotipo.
+Nos quedan sin explicar 1 lectura de diferencia en `209625721` (68 contra 69) y 4 en `209625908` (85 contra 89). Revisamos la calidad de mapeo y la orientación de las parejas, entre otras cosas, y no encontramos la causa. No cambia lo importante: son las mismas dos variantes, con el mismo genotipo.
 
 ### Qué le falta a nuestro VCF
 
